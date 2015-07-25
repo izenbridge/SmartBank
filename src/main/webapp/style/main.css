@@ -1,0 +1,48 @@
+@CHARSET "ISO-8859-1";
+
+html {
+  background-color: #333;
+}
+
+body {
+	background-color: #efe;
+	width: 800px;
+	height: 500px;
+	align: center;
+	margin: 0 auto;
+	padding: 2px;
+}
+
+input {
+	height: 30px;
+	font-size: 16px;
+}
+
+input[type='submit'], input[type='button'] {
+	font-size: 20px;
+	font-weight: bold;
+	color: #fff;
+	background-color: #339933;
+	height: 35px;
+}
+
+input.cancel{
+	background-color: #cc3300;
+}
+
+p {
+	font-size: 20px;
+	color: blue;
+	text-align: center;
+}
+
+p.error {
+	font-size: 20px;
+	color: red;
+}
+
+p.note {
+	font-size: 18px;
+	color: black;
+	font-style: italic;
+}
