@@ -25,14 +25,14 @@ public class AtmTransactionServiceTest {
 	public void validWithdrawalOf1000DebitsAccount() throws Exception {
 		atmTransactionService.withdraw(account, 1000);
 		
-		Assert.assertEquals(9000, (long)account.getBalance());
+		Assert.assertEquals(9000, account.getBalance());
 	}
 
 	@Test
 	public void validWithdrawalOf1000DebitsAtmBalance() throws Exception {
 		atmTransactionService.withdraw(account, 1000);
 		
-		Assert.assertEquals(999000, (long)atmTransactionService.getAtmBalance());
+		Assert.assertEquals(999000, atmTransactionService.getAtmBalance());
 	}
 
 	@Test (expected=InvalidAmountException.class)
