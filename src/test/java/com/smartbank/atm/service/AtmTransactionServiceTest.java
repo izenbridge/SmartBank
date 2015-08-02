@@ -25,14 +25,14 @@ public class AtmTransactionServiceTest {
 	public void validWithdrawalOf1000DebitsAccount() throws Exception {
 		atmTransactionService.withdraw(account, 1000);
 		
-		Assert.assertEquals(9000, (long)account.getBalance());
+		Assert.assertEquals(9000, account.getBalance());
 	}
 
 	@Test
 	public void validWithdrawalOf1000DebitsAtmBalance() throws Exception {
 		atmTransactionService.withdraw(account, 1000);
 		
-		Assert.assertEquals(999000, (long)atmTransactionService.getAtmBalance());
+		Assert.assertEquals(999000, atmTransactionService.getAtmBalance());
 	}
 
 	@Test (expected=InvalidAmountException.class)
@@ -78,25 +78,6 @@ public class AtmTransactionServiceTest {
 		Assert.assertEquals(1000000-withdrawalAmount, (int)atmTransactionService.getAtmBalance());
 		Assert.assertEquals(1000, (int)account.getBalance());
 	}
-
-//	@Test
-//	public void testwithdraw_LessThanBalance() throws Exception {
-//		Account userAccount = getUserAccountWithBalance(100000);
-//		int cashToWithdraw = 5000;
-//		
-//		atmTransactionService.withdraw(userAccount, cashToWithdraw);
-//		
-//		Assert.assertEquals(initialAtmBalance-cashToWithdraw, atmTransactionService.getAtmBalance());
-//		Assert.assertEquals(95000, userAccount.getAccountBalance());
-//	}
-//
-//	@Test(expected=InsufficientFundsException.class)
-//	public void testwithdraw_MoreThanBalance() throws Exception {
-//		Account userAccount = getUserAccountWithBalance(1000);
-//		int cashToWithdraw = 2000;
-//		
-//		atmTransactionService.withdraw(userAccount, cashToWithdraw);
-//	}
 
 	private Account getUserAccountWithBalance(int seedMoney) {
 		Account account = new Account("12345678", "0000000000000000", "1234", seedMoney);
