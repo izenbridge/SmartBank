@@ -13,7 +13,7 @@
 
 <p>Please select the transaction you wish to make:&nbsp;</p>
 <br/>
-<p><input type="button" value="WITHDRAWAL" onclick="window.location='/SmartBank/withdrawal'" /></p>
+<p><input id="btnWithdrawal" type="button" value="WITHDRAWAL" onclick="window.location='/SmartBank/withdrawal'" /></p>
 <br/>
 <br/>
 <input type="button" class="cancel" value="EXIT / CANCEL" onclick="window.location='/SmartBank/'" />

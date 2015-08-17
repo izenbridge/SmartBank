@@ -19,10 +19,10 @@
 	<br/>
 </c:if>
 <p>Please enter your Debit Card number and ATM PIN to access your account:</p>
-<p>DEBIT CARD #: <form:input path="debitCardNumber" maxlength="16" name="txtCardNo" size="20" /></p>
-<p>ATM PIN: <form:password path="atmPin" maxlength="4" name="txtPIN" size="6" /></p>
+<p>DEBIT CARD #: <form:input path="debitCardNumber" maxlength="16" name="txtCardNo" id="cardNo" size="20" /></p>
+<p>ATM PIN: <form:password path="atmPin" maxlength="4" name="txtPIN" id="pinNo" size="6" /></p>
 
-<p><input type="submit" value="ACCESS ACCOUNT" /></p>
+<p><input id="btnLogin" type="submit" value="ACCESS ACCOUNT" /></p>
 </form:form>
 
 <br/>
