@@ -30,6 +30,7 @@ public class AccountAccessService {
 	};
 	
 	public String authenticate(LoginRequest loginRequest) {
+		
 		Account userAccount = getUserAccount(loginRequest.getDebitCardNumber());
 		if (userAccount == null) {
 			return "Invalid Debit Card number! Please enter a valid 16-digit Debit Card number.";

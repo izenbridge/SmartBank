@@ -12,6 +12,7 @@ public class AccountAccessServiceTest {
 	private AccountAccessService accountAccessService;
 	private LoginRequest loginReq;
 	
+	
 	@Before
 	public void init(){
 		loginReq = new LoginRequest();
