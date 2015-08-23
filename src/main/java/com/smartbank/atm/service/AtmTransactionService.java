@@ -1,5 +1,7 @@
 package com.smartbank.atm.service;
 
+import java.util.regex.Pattern;
+
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,9 @@ public class AtmTransactionService {
 	private long atmBalance = 1000000;
 	private int atmLimit = 25000;
 	
+	
+	private  Pattern PATTERN_VALID_AMOUNT = Pattern.compile("^[1-9](\\d){0,2}(0){2}$");
+	
 	public long getAtmBalance() {
 		return atmBalance;
 	}
@@ -31,11 +36,29 @@ public class AtmTransactionService {
 	public void dispenseCash(long cashAmount) {
 		this.atmBalance -= cashAmount;
 	}
+	
+	
+	
+	public void withdraw(Account userAccount, String cashToWithdraw) 
+			throws InsufficientFundsException, AtmLimitExceededException, InvalidAmountException 
+	{
+		
+		
+		if (!isRequestedAmountValid(cashToWithdraw)) {
+			throw new InvalidAmountException("Requested amount is invalid. Please try again.");
+		}
+		
+		int amountToWithdraw = Integer.parseInt(cashToWithdraw);
+		
+		withdraw(userAccount, amountToWithdraw);
+	}
 
 
 	public void withdraw(Account userAccount, int cashToWithdraw) 
 			throws InsufficientFundsException, AtmLimitExceededException, InvalidAmountException 
 	{
+		
+		
 		if (!validateAmountMultipleOf100(cashToWithdraw)) {
 			throw new InvalidAmountException("The amount requested must be a multiple of 100.");
 		}
@@ -60,6 +83,10 @@ public class AtmTransactionService {
 
 	public int getSingleTxnLimit() {
 		return this.atmLimit;
+	}
+	
+	private  boolean isRequestedAmountValid(String requestedAmount) {
+		return PATTERN_VALID_AMOUNT.matcher(requestedAmount).matches();
 	}
 
 }

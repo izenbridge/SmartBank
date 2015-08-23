@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.smartbank.atm.controller.WithdrawalController;
 import com.smartbank.atm.exception.InsufficientFundsException;
 import com.smartbank.atm.exception.InvalidAmountException;
 import com.smartbank.atm.model.Account;
@@ -83,5 +84,58 @@ public class AtmTransactionServiceTest {
 		Account account = new Account("12345678", "0000000000000000", "1234", seedMoney);
 		return account;
 	}
+	
+	
+	
+	@Test (expected=InvalidAmountException.class)
+	public void invalidAmountThrowsError_0() throws Exception {
+		atmTransactionService.withdraw(account, "Aasc");
+	}
+	
+	@Test (expected=InvalidAmountException.class)
+	public void invalidAmountThrowsError_1() throws Exception {
+		atmTransactionService.withdraw(account, "AJHD786");
+	}
+	
+	@Test (expected=InvalidAmountException.class)
+	public void invalidAmountThrowsError_2() throws Exception {
+		atmTransactionService.withdraw(account, "-1000");
+	}
+	
+	
+	@Test (expected=InvalidAmountException.class)
+	public void invalidAmountThrowsError_3() throws Exception {
+		atmTransactionService.withdraw(account, "00000");
+	}
+	
+	
+
+	/*@Test
+	public void testIsRequestedAmountValid_ValidAmounts() throws Exception {
+		WithdrawalController controller = new WithdrawalController();
+
+		Assert.assertTrue(controller.isRequestedAmountValid("100"));
+		Assert.assertTrue(controller.isRequestedAmountValid("900"));
+		Assert.assertTrue(controller.isRequestedAmountValid("1000"));
+		Assert.assertTrue(controller.isRequestedAmountValid("1100"));
+		Assert.assertTrue(controller.isRequestedAmountValid("9900"));
+		Assert.assertTrue(controller.isRequestedAmountValid("10000"));
+		Assert.assertTrue(controller.isRequestedAmountValid("10100"));
+		Assert.assertTrue(controller.isRequestedAmountValid("99000"));
+		Assert.assertTrue(controller.isRequestedAmountValid("99900"));
+	}
+
+	@Test
+	public void testIsRequestedAmountValid_InvalidAmounts() throws Exception {
+		WithdrawalController controller = new WithdrawalController();
+
+		Assert.assertFalse(controller.isRequestedAmountValid("ABC"));
+		Assert.assertFalse(controller.isRequestedAmountValid("-100"));
+		Assert.assertFalse(controller.isRequestedAmountValid("1"));
+		Assert.assertFalse(controller.isRequestedAmountValid("10"));
+		Assert.assertFalse(controller.isRequestedAmountValid("0"));
+		Assert.assertFalse(controller.isRequestedAmountValid("00000"));
+		Assert.assertFalse(controller.isRequestedAmountValid("100000"));
+	}*/
 
 }

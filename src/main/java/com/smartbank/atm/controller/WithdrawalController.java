@@ -32,7 +32,7 @@ public class WithdrawalController {
 	@Autowired
 	private AccountAccessService accountAccessService;
 
-	private static Pattern PATTERN_VALID_AMOUNT = Pattern.compile("^[1-9](\\d){0,2}(0){2}$");
+	
 	
 	@RequestMapping(value="/withdrawal", method = RequestMethod.GET)
 	public String load(
@@ -62,14 +62,14 @@ public class WithdrawalController {
 			Errors errors,
 			Model model) 
 	{
-		logger.trace("withdrawMoney: request received..."+withdrawalRequest);
-		if (!isRequestedAmountValid(withdrawalRequest.getRequestedAmount())) {
+		/*logger.trace("withdrawMoney: request received..."+withdrawalRequest);
+		if (!atmTransactionService.isRequestedAmountValid(withdrawalRequest.getRequestedAmount())) {
 			logger.info("withdrawMoney: Invalid amount requested.");
 			model.addAttribute("errorMsg", "Requested amount is invalid. Please try again.");
 			return "withdrawal";
-		}
+		}*/
 		
-		withdrawalRequest.setAmountToWithdraw(Integer.parseInt(withdrawalRequest.getRequestedAmount()));
+//		withdrawalRequest.setAmountToWithdraw(Integer.parseInt(withdrawalRequest.getRequestedAmount()));
 		Account userAccount = accountAccessService.getUserAccount(withdrawalRequest.getDebitCardNumber());
 		if (userAccount == null) {
 			logger.info("withdrawMoney: Unidentifiable user..."+withdrawalRequest);
@@ -79,10 +79,13 @@ public class WithdrawalController {
 		
 		try {
 			logger.info("withdrawMoney: Withdrawing money from user account.");
-			atmTransactionService.withdraw(userAccount, withdrawalRequest.getAmountToWithdraw());
+			atmTransactionService.withdraw(userAccount, withdrawalRequest.getRequestedAmount());
+//			atmTransactionService.withdraw(userAccount, withdrawalRequest.getAmountToWithdraw());
+
 		} 
 		catch (InvalidAmountException e) {
-			model.addAttribute("errorMsg", "Invalid amount specified. Please select amount in the multiples of 100.");
+			model.addAttribute("errorMsg", e.getMessage());
+//			model.addAttribute("errorMsg", "Invalid amount specified. Please select amount in the multiples of 100.");
 			return "withdrawal";
 		} 
 		catch (InsufficientFundsException e) {
@@ -96,7 +99,5 @@ public class WithdrawalController {
 		return "withdrawalSuccess";
 	}
 
-	boolean isRequestedAmountValid(String requestedAmount) {
-		return PATTERN_VALID_AMOUNT.matcher(requestedAmount).matches();
-	}
+	
 }
