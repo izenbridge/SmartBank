@@ -4,6 +4,8 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.smartbank.atm.exception.InvalidDebitCardNumberException;
+import com.smartbank.atm.exception.InvalidDebitPinNumberException;
 import com.smartbank.atm.model.Account;
 import com.smartbank.atm.model.LoginRequest;
 
@@ -29,7 +31,7 @@ public class AccountAccessServiceTest {
 		Assert.assertEquals("Welcome " + account.getAccountNumber(), accountAccessService.authenticate(loginReq));
 	}
 	
-	@Test
+	@Test(expected = InvalidDebitCardNumberException.class)
 	public void testAuthenticateFailInvalidDebitCard(){
 		loginReq.setDebitCardNumber("3452368598592384");
 		loginReq.setAtmPin("3333");
@@ -37,7 +39,7 @@ public class AccountAccessServiceTest {
 		Assert.assertEquals("Invalid Debit Card number! Please enter a valid 16-digit Debit Card number.", accountAccessService.authenticate(loginReq));
 	}
 	
-	@Test
+	@Test(expected = InvalidDebitPinNumberException.class)
 	public void testAuthenticateFailInvalidPin(){
 		loginReq.setDebitCardNumber("3333333333333333");
 		loginReq.setAtmPin("6666");
