@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.smartbank.atm.controller.WithdrawalController;
+import com.smartbank.atm.exception.AtmLimitExceededException;
 import com.smartbank.atm.exception.InsufficientFundsException;
 import com.smartbank.atm.exception.InvalidAmountException;
 import com.smartbank.atm.model.Account;
@@ -137,5 +137,54 @@ public class AtmTransactionServiceTest {
 		Assert.assertFalse(controller.isRequestedAmountValid("00000"));
 		Assert.assertFalse(controller.isRequestedAmountValid("100000"));
 	}*/
+
+	@Test
+	public void checkAtmLimitWhenCashLevelHigh() throws Exception {
+		atmTransactionService.setAtmBalance(500000);
+		int limit = atmTransactionService.getSingleTxnLimit();
+		Assert.assertEquals(limit, 25000);
+	}
+
+	@Test
+	public void checkAtmLimitWhenCashLevelMed() throws Exception {
+		atmTransactionService.setAtmBalance(100000);
+		int limit = atmTransactionService.getSingleTxnLimit();
+		Assert.assertEquals(limit, 10000);
+	}
+
+	
+	@Test
+	public void checkAtmLimitWhenCashLevelLow() throws Exception {
+		atmTransactionService.setAtmBalance(100000-1);
+		int limit = atmTransactionService.getSingleTxnLimit();
+		Assert.assertEquals(limit, 5000);
+	}
+
+	@Test(expected=AtmLimitExceededException.class)
+	public void withdrawingMoreThanAtmTxnLimitWhenCashLevelHighThrowsError() throws Exception {
+		atmTransactionService.setAtmBalance(500000);
+		int withdrawalAmount = atmTransactionService.getSingleTxnLimit() + 100;
+		account.setBalance(withdrawalAmount+100);
+
+		atmTransactionService.withdraw(account, withdrawalAmount);
+	}
+
+	@Test (expected=AtmLimitExceededException.class)
+	public void withdrawingMoreThanAtmTxnLimiWhenCashLevelMedThrowsError() throws Exception {
+		atmTransactionService.setAtmBalance(100000);
+		int withdrawalAmount = atmTransactionService.getSingleTxnLimit() + 100;
+		account.setBalance(withdrawalAmount+100);
+
+		atmTransactionService.withdraw(account, withdrawalAmount);
+	}
+
+	@Test (expected=AtmLimitExceededException.class)
+	public void withdrawingMoreThanAtmTxnLimitWhenCashLevelLowThrowsError() throws Exception {
+		atmTransactionService.setAtmBalance(99000);
+		int withdrawalAmount = atmTransactionService.getSingleTxnLimit() + 100;
+		account.setBalance(withdrawalAmount+100);
+
+		atmTransactionService.withdraw(account, withdrawalAmount);
+	}
 
 }

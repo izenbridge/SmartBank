@@ -16,7 +16,7 @@ public class AtmTransactionService {
 	private static final Logger logger = LogManager.getLogger(AtmTransactionService.class);
 
 	private long atmBalance = 1000000;
-	private int atmLimit = 25000;
+//	private int atmLimit = 25000;
 	
 	
 	private  Pattern PATTERN_VALID_AMOUNT = Pattern.compile("^[1-9](\\d){0,2}(0){2}$");
@@ -66,7 +66,7 @@ public class AtmTransactionService {
 			logger.error("withdraw: Error! User account has insufficient funds.");
 			throw new InsufficientFundsException();
 		}
-		if (cashToWithdraw > atmLimit) {
+		if (cashToWithdraw > getSingleTxnLimit()) {
 			logger.error("withdraw: Error! Requested amount more than ATM limit.");
 			throw new AtmLimitExceededException();
 		}
@@ -82,7 +82,15 @@ public class AtmTransactionService {
 	}
 
 	public int getSingleTxnLimit() {
-		return this.atmLimit;
+		long balance = getAtmBalance();
+		if (balance >= 500000) {
+			return 25000; 
+		} else if (balance >= 100000) {
+			return 10000;
+		} else {
+			return 5000;
+		}
+//		return this.atmLimit;
 	}
 	
 	private  boolean isRequestedAmountValid(String requestedAmount) {
