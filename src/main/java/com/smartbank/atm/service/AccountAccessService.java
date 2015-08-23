@@ -39,7 +39,7 @@ public class AccountAccessService {
 			return "Invalid PIN! Please enter your 4-digit ATM PIN to access your account.";
 		}
 		
-		return null;
+		return "Welcome " + userAccount.getAccountNumber();
 	}
 
 	public Account getUserAccount(String debitCardNumber) {
