@@ -32,6 +32,7 @@ public class AccountAccessServiceTest {
 	public void testAuthenticateFailInvalidDebitCard(){
 		loginReq.setDebitCardNumber("3452368598592384");
 		loginReq.setAtmPin("3333");
+		
 		Assert.assertEquals("Invalid Debit Card number! Please enter a valid 16-digit Debit Card number.", accountAccessService.authenticate(loginReq));
 	}
 	
@@ -39,6 +40,7 @@ public class AccountAccessServiceTest {
 	public void testAuthenticateFailInvalidPin(){
 		loginReq.setDebitCardNumber("3333333333333333");
 		loginReq.setAtmPin("6666");
+		
 		Assert.assertEquals("Invalid PIN! Please enter your 4-digit ATM PIN to access your account.", accountAccessService.authenticate(loginReq));
 	}
 }
