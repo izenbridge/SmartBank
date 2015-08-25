@@ -22,28 +22,31 @@ public class AccountAccessServiceTest {
 	}
 	
 	@Test
-	public void testAuthenticateSuccess(){
+	public void testAuthenticateSuccess() throws InvalidDebitCardNumberException, InvalidDebitPinNumberException
+	{
 		String debitCardNo = "3333333333333333";
 		loginReq.setDebitCardNumber(debitCardNo);
-		Account account = accountAccessService.getUserAccount(debitCardNo);
-		loginReq.setAtmPin(account.getDebitCardPin());
+		loginReq.setAtmPin("3333");
+		Account account = accountAccessService.authenticate(loginReq);
 		
-		Assert.assertEquals("Welcome " + account.getAccountNumber(), accountAccessService.authenticate(loginReq));
+		Assert.assertEquals(debitCardNo, account.getDebitCardNumber());
 	}
 	
 	@Test(expected = InvalidDebitCardNumberException.class)
-	public void testAuthenticateFailInvalidDebitCard(){
+	public void testAuthenticateFailInvalidDebitCard() throws InvalidDebitCardNumberException, InvalidDebitPinNumberException
+	{
 		loginReq.setDebitCardNumber("3452368598592384");
 		loginReq.setAtmPin("3333");
 		
-		Assert.assertEquals("Invalid Debit Card number! Please enter a valid 16-digit Debit Card number.", accountAccessService.authenticate(loginReq));
+		accountAccessService.authenticate(loginReq);
 	}
 	
 	@Test(expected = InvalidDebitPinNumberException.class)
-	public void testAuthenticateFailInvalidPin(){
+	public void testAuthenticateFailInvalidPin() throws InvalidDebitCardNumberException, InvalidDebitPinNumberException
+	{
 		loginReq.setDebitCardNumber("3333333333333333");
 		loginReq.setAtmPin("6666");
 		
-		Assert.assertEquals("Invalid PIN! Please enter your 4-digit ATM PIN to access your account.", accountAccessService.authenticate(loginReq));
+		accountAccessService.authenticate(loginReq);
 	}
 }

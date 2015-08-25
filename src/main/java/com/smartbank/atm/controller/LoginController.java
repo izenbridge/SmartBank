@@ -14,6 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.smartbank.atm.model.Account;
 import com.smartbank.atm.model.LoginRequest;
 import com.smartbank.atm.service.AccountAccessService;
 
@@ -50,18 +51,19 @@ public class LoginController {
 			return "/login";
 		}
 
-		error = authenticationService.authenticate(loginRequest);
-		if (!StringUtils.isEmpty(error)) {
-			logger.info("authenticate: login request failed ("+loginRequest+"):"+error);
-			model.addAttribute("errorMsg", "Authentication failed - " + error);
+		Account account;
+		try {
+			account = authenticationService.authenticate(loginRequest);
+		} 
+		catch(Exception exception) {
+			logger.info("authenticate: login request failed ("+loginRequest+"):"+exception.getMessage());
+			model.addAttribute("errorMsg", "Authentication failed - " + exception.getMessage());
 			return "/login";
 		} 
-		else {
-			logger.info("authenticate: login successful..."+loginRequest);
-			httpRequest.getSession().setAttribute("DebitCardNumber", loginRequest.getDebitCardNumber());
-			return "redirect:/options";
-		}
 
+		logger.info("authenticate: login successful..."+loginRequest);
+		httpRequest.getSession().setAttribute("DebitCardNumber", account.getDebitCardNumber());
+		return "redirect:/options";
 	}
 
 	private String validateRequest(LoginRequest loginRequest) {

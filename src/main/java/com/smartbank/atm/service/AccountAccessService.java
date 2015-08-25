@@ -5,6 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
+import com.smartbank.atm.exception.InvalidDebitCardNumberException;
+import com.smartbank.atm.exception.InvalidDebitPinNumberException;
 import com.smartbank.atm.model.Account;
 import com.smartbank.atm.model.LoginRequest;
 
@@ -29,18 +31,18 @@ public class AccountAccessService {
 				new Account("99999999", "9999999999999999", "9999", 90000));
 	};
 	
-	public String authenticate(LoginRequest loginRequest) {
+	public Account authenticate(LoginRequest loginRequest) throws InvalidDebitCardNumberException, InvalidDebitPinNumberException {
 		
 		Account userAccount = getUserAccount(loginRequest.getDebitCardNumber());
 		if (userAccount == null) {
-			return "Invalid Debit Card number! Please enter a valid 16-digit Debit Card number.";
+			throw new InvalidDebitCardNumberException();
 		}
 
 		if (!userAccount.getDebitCardPin().equals(loginRequest.getAtmPin())) {
-			return "Invalid PIN! Please enter your 4-digit ATM PIN to access your account.";
+			throw new InvalidDebitPinNumberException();
 		}
 		
-		return "Welcome " + userAccount.getAccountNumber();
+		return userAccount;
 	}
 
 	public Account getUserAccount(String debitCardNumber) {
