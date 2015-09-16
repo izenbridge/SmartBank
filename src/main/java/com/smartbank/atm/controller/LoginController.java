@@ -28,10 +28,10 @@ public class LoginController {
 	private AccountAccessService authenticationService;
 	
 	@RequestMapping(value="/login", method = RequestMethod.GET)
-	public String login(Model model) {
+	public String loadPage(Model model) {
 		logger.trace("login: request received");
 		model.addAttribute("loginRequest", new LoginRequest());
-		return "/login";
+		return "login";
 	}
 
 	@RequestMapping(value="/login", method = RequestMethod.POST)
