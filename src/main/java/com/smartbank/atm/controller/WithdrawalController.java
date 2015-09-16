@@ -14,11 +14,11 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.smartbank.atm.bean.Account;
+import com.smartbank.atm.bean.WithdrawalRequest;
 import com.smartbank.atm.exception.AtmLimitExceededException;
 import com.smartbank.atm.exception.InsufficientFundsException;
 import com.smartbank.atm.exception.InvalidAmountException;
-import com.smartbank.atm.model.Account;
-import com.smartbank.atm.model.WithdrawalRequest;
 import com.smartbank.atm.service.AccountAccessService;
 import com.smartbank.atm.service.AtmTransactionService;
 

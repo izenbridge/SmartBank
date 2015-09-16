@@ -4,10 +4,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import com.smartbank.atm.bean.Account;
 import com.smartbank.atm.exception.AtmLimitExceededException;
 import com.smartbank.atm.exception.InsufficientFundsException;
 import com.smartbank.atm.exception.InvalidAmountException;
-import com.smartbank.atm.model.Account;
 
 @Service
 public class AtmTransactionService {

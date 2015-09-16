@@ -5,8 +5,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Service;
 
-import com.smartbank.atm.model.Account;
-import com.smartbank.atm.model.LoginRequest;
+import com.smartbank.atm.bean.Account;
+import com.smartbank.atm.bean.LoginRequest;
 
 @Service
 public class AccountAccessService {

@@ -14,7 +14,7 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.smartbank.atm.model.LoginRequest;
+import com.smartbank.atm.bean.LoginRequest;
 import com.smartbank.atm.service.AccountAccessService;
 
 

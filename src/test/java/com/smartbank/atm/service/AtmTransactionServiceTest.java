@@ -4,9 +4,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.smartbank.atm.bean.Account;
 import com.smartbank.atm.exception.InsufficientFundsException;
 import com.smartbank.atm.exception.InvalidAmountException;
-import com.smartbank.atm.model.Account;
 
 public class AtmTransactionServiceTest {
 

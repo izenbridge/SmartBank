@@ -1,4 +1,4 @@
-package com.smartbank.atm.model;
+package com.smartbank.atm.bean;
 
 import java.io.Serializable;
 
