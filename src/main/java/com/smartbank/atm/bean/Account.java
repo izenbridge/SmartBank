@@ -11,6 +11,11 @@ public class Account implements Serializable {
 	private String debitCardPin;
 	private long balance;
 
+	// a minimal constructor
+	public Account(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
 	public Account(String accountNumber, String debitCardNumber,
 			String debitCardPin, long initialBalance) 
 	{

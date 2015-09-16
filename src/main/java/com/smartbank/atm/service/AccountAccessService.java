@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.smartbank.atm.bean.Account;
 import com.smartbank.atm.bean.LoginRequest;
+import com.smartbank.atm.exception.InvalidAccountException;
 
 @Service
 public class AccountAccessService {
@@ -44,6 +45,21 @@ public class AccountAccessService {
 
 	public Account getUserAccount(String debitCardNumber) {
 		return mapCardNumAndAccount.get(debitCardNumber);
+	}
+
+	public Account createAccountFromString(String accountString) {
+		if (accountString == null || accountString.isEmpty()) {
+			return null;
+		}
+		String[] args = accountString.split(",");
+		if (args.length < 4) {
+			throw new InvalidAccountException("Not enough information to create account.");
+		}
+		Account account = new Account(args[0]);
+		account.setDebitCardNumber(args[1]);
+		account.setDebitCardPin(args[2]);
+		account.setBalance(Long.parseLong(args[3]));
+		return account;
 	}
 	
 }
