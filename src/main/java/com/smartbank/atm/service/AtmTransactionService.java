@@ -43,7 +43,7 @@ public class AtmTransactionService {
 			logger.error("withdraw: Error! User account has insufficient funds.");
 			throw new InsufficientFundsException();
 		}
-		if (cashToWithdraw > atmLimit) {
+		if (cashToWithdraw > getSingleTxnLimit()) {
 			logger.error("withdraw: Error! Requested amount more than ATM limit.");
 			throw new AtmLimitExceededException();
 		}
