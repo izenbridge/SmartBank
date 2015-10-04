@@ -53,6 +53,13 @@ public class AccountAccessServiceTest {
 	}
 	
 	@Test
+	public void testGetNullUserAccountByDebitCardNumber() {
+		String debitCardNumber = "3333333333333331";
+		Account account = accountAccessService.getUserAccount(debitCardNumber);
+		Assert.assertNull(account);
+	}
+	
+	@Test
 	public void testAuthenticateRequest_Successful() {
 		loginRequest.setDebitCardNumber("3333333333333333");
 		loginRequest.setAtmPin("3333");
