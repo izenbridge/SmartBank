@@ -22,6 +22,33 @@ public class AtmTransactionServiceTest {
 	}
 
 	@Test
+	public void testTxnLimitWhenAtmBalanceGreaterThan10L() throws Exception {
+		atmTransactionService.setAtmBalance(1000100);
+		int transactionLimit = atmTransactionService.getSingleTxnLimit();
+		
+		Assert.assertEquals(25000, transactionLimit);
+		
+	}
+	
+	@Test
+	public void testTxnLimitWhenAtmBalanceGreaterThan5L() throws Exception {
+		atmTransactionService.setAtmBalance(500000);
+		int transactionLimit = atmTransactionService.getSingleTxnLimit();
+		
+		Assert.assertEquals(10000, transactionLimit);
+		
+	}
+	
+	@Test
+	public void testTxnLimitWhenAtmBalanceLessThan5L() throws Exception {
+		atmTransactionService.setAtmBalance(490000);
+		int transactionLimit = atmTransactionService.getSingleTxnLimit();
+		
+		Assert.assertEquals(5000, transactionLimit);
+		
+	}
+	
+	@Test
 	public void validWithdrawalOf1000DebitsAccount() throws Exception {
 		atmTransactionService.withdraw(account, 1000);
 		

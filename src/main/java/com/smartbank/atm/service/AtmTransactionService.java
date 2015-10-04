@@ -59,6 +59,14 @@ public class AtmTransactionService {
 	}
 
 	public int getSingleTxnLimit() {
+		
+		if(getAtmBalance() < 500000){
+			this.atmLimit = 5000;
+		}
+		else if(getAtmBalance() < 1000000){
+			this.atmLimit = 10000;
+		}
+		
 		return this.atmLimit;
 	}
 
